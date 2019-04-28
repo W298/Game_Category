@@ -1,3 +1,4 @@
 {
-  "opencritic_chartpage_score" : "body > app-root > div > div > app-game-data-visualizations > div > div.d-flex.mb-4 > div.flex-grow-1 > div > app-game-data-visualization-bar-row > div.chart-row-v2 > div > div.d-flex.review-header-info.mt-2 > span.mr-2 > app-score-display > span"
+  "opencritic_chartpage_score" : "body > app-root > div > div > app-game-data-visualizations > div > div.d-flex.mb-4 > div.flex-grow-1 > div > app-game-data-visualization-bar-row > div.chart-row-v2 > div > div.d-flex.review-header-info.mt-2 > span.mr-2 > app-score-display > span",
+  "opencritic_reviewpage_score" : "body > app-root > div > div > app-game-reviews > div > div.d-flex > div.flex-grow-1 > app-review-table > div > div:nth-child(2) > app-review-table-row > div > div.col-md-8 > div.d-flex > div.flex-grow-1.score-display > app-score-display > span"
 }

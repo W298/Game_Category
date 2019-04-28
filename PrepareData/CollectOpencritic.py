@@ -10,6 +10,9 @@ with open("Data/URL_List.json", 'r') as URL_json:
     URL_data = json.load(URL_json)
 
 dicdata = {}
+
+# ------------------------------------------------------------------------------------------Get chart page score
+
 for game in GameList_data["GameList"]:
     html = requests.get(url=URL_data[game]["chart"]).text
 
@@ -30,6 +33,27 @@ for game in GameList_data["GameList"]:
                 data.append(int((float(firstdigit)/float(seconddigit))*100))
 
     dicdata[game] = {'Opencritic':data}
+
+# ------------------------------------------------------------------------------------------Get review page score
+
+for game in GameList_data["GameList"]:
+    html = requests.get(url=URL_data[game]["review"]).text
+
+    BSObject = BeautifulSoup(html, "html.parser")
+
+    Rawdata = BSObject.select(Selector_data["opencritic_reviewpage_score"])
+    data = []
+    for str in Rawdata:
+        score = str.text
+
+        if (score and not score == "Unscored"):
+            indexofslice = score.find('/')
+            firstdigit = score[1:indexofslice - 1]
+            seconddigit = score[indexofslice + 2:]
+            data.append(int((float(firstdigit)/float(seconddigit))*100))
+
+    dicdata[game] = {'Opencritic':data}
+
 
 with open("Data/ScoreData.json", 'a') as ScoreData:
     ScoreData.write(json.dumps(dicdata))

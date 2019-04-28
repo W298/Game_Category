@@ -1,6 +1,6 @@
 {
   "World_War_Z" :
-  {"chart" : "https://opencritic.com/game/7513/world-war-z/charts"},
+  {"chart" : "https://opencritic.com/game/7513/world-war-z/charts", "review" : "https://opencritic.com/game/6846/world-war-z/reviews"},
   "Days_Gone" :
-  {"chart" :  "https://opencritic.com/game/6846/days-gone/charts"}
+  {"chart" :  "https://opencritic.com/game/6846/days-gone/charts", "review" :  "https://opencritic.com/game/6846/days-gone/reviews"}
 }
