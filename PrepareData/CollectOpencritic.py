@@ -13,7 +13,7 @@ def CollectOpencriticScore(dicdata):
     # ----------------------------------------------------------------------------------------------Get chart page score
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data[game]["chart"]).text
+        html = requests.get(url=URL_data["Opencritic"][game]["chart"]).text
 
         BSObject = BeautifulSoup(html, "html.parser")
 
@@ -36,7 +36,7 @@ def CollectOpencriticScore(dicdata):
     # ---------------------------------------------------------------------------------------------Get review page score
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data[game]["review"]).text
+        html = requests.get(url=URL_data["Opencritic"][game]["review"]).text
 
         BSObject = BeautifulSoup(html, "html.parser")
 
@@ -52,3 +52,15 @@ def CollectOpencriticScore(dicdata):
                 data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
         dicdata[game]["Opencritic"].extend(data)
+
+dicdata = {}
+
+with open("Data/GameList.json", 'r') as GameList_json:
+    GameList_data = json.load(GameList_json)
+
+for game in GameList_data["GameList"]:
+    dicdata[game] = {"Opencritic": [], "Metacritic": [], "IGN": []}
+
+CollectOpencriticScore(dicdata)
+
+print(dicdata)

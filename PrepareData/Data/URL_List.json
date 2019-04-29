@@ -1,6 +1,5 @@
 {
-  "World_War_Z" :
-  {"chart" : "https://opencritic.com/game/7513/world-war-z/charts", "review" : "https://opencritic.com/game/6846/world-war-z/reviews"},
-  "Days_Gone" :
-  {"chart" :  "https://opencritic.com/game/6846/days-gone/charts", "review" :  "https://opencritic.com/game/6846/days-gone/reviews"}
+  "Opencritic": {"Grand Theft Auto V": {"url": "https://opencritic.com/game/163/grand-theft-auto-v", "chart": "https://opencritic.com/game/163/grand-theft-auto-v/charts", "review": "https://opencritic.com/game/163/grand-theft-auto-v/reviews"},
+   "Divinity: Original Sin 2": {"url": "https://opencritic.com/game/3828/divinity-original-sin-2", "chart": "https://opencritic.com/game/3828/divinity-original-sin-2/charts", "review": "https://opencritic.com/game/3828/divinity-original-sin-2/reviews"},
+   "Undertale": {"url": "https://opencritic.com/game/1907/undertale", "chart": "https://opencritic.com/game/1907/undertale/charts", "review": "https://opencritic.com/game/1907/undertale/reviews"}}
 }
