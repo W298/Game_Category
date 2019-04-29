@@ -45,13 +45,10 @@ def CollectOpencriticScore(dicdata):
         for str in Rawdata:
             score = str.text
 
-            if (score and not score == "Unscored"):
+            if (score and not score == "Unscored" and score.find('/') != -1):
                 indexofslice = score.find('/')
                 firstdigit = score[1:indexofslice - 1]
                 seconddigit = score[indexofslice + 2:]
                 data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
         dicdata[game]["Opencritic"].extend(data)
-
-
-def CollectOpencriticWords():
