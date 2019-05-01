@@ -32,6 +32,7 @@ def CollectOpencriticScore(dicdata):
                     data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
         dicdata[game]["Opencritic"].extend(data)
+        print("Opencritic chart page score analyzed: " + game)  # Debugging
 
     # ---------------------------------------------------------------------------------------------Get review page score
 
@@ -52,15 +53,38 @@ def CollectOpencriticScore(dicdata):
                 data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
         dicdata[game]["Opencritic"].extend(data)
+        print("Opencritic reivew page score analyzed: " + game)  # Debugging
 
-dicdata = {}
 
-with open("Data/GameList.json", 'r') as GameList_json:
-    GameList_data = json.load(GameList_json)
+def CollectOpencriticWords(dicdata):
+    with open("Data/GameList.json", 'r') as GameList_json:
+        GameList_data = json.load(GameList_json)
+    with open("Data/SelectorList.json", 'r') as Selector_json:
+        Selector_data = json.load(Selector_json)
+    with open("Data/URL_List.json", 'r') as URL_json:
+        URL_data = json.load(URL_json)
 
-for game in GameList_data["GameList"]:
-    dicdata[game] = {"Opencritic": [], "Metacritic": [], "IGN": []}
 
-CollectOpencriticScore(dicdata)
+    for game in GameList_data["GameList"]:
+        html = requests.get(url=URL_data["Opencritic"][game]["url"]).text
 
-print(dicdata)
+        BSObject = BeautifulSoup(html, "html.parser")
+
+        Rawdata = BSObject.select(Selector_data["opencritic_summarypage_words"])
+
+        if not Rawdata:
+            Rawdata = BSObject.select(Selector_data["opencritic_summarypage_words_alter"])
+
+            if not Rawdata:
+                Rawdata = BSObject.select(Selector_data["opencritic_summarypage_words_alter2"])
+
+                if not Rawdata:
+                    Rawdata = BSObject.select(Selector_data["opencritic_summarypage_words_alter3"])
+
+        for str in Rawdata:
+            text = str.text
+
+        txli = text.split()
+
+        dicdata[game]["Opencritic"].extend(txli)
+        print("Opencritic summary page words collected: " + game)

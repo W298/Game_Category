@@ -8,6 +8,9 @@ Rawdata = []
 names = []
 urls = []
 
+with open("Data/SelectorList.json", 'r') as Selector_json:
+    Selector_data = json.load(Selector_json)
+
 dic_name = {"GameList" : []}
 dic_url = {"Opencritic": {}}
 
@@ -15,12 +18,13 @@ for i in range(N):
     bsobj.append(BeautifulSoup(requests.get("https://opencritic.com/browse/pc/all-time/score/" + str(i+1)).text, "html.parser"))
 
 for i in range(N):
-    Rawdata.append(bsobj[i].select("body > app-root > div > div > app-browse-platform > div > div.d-flex > div.flex-grow-1 > div.desktop-game-display > div > div > div.game-name.col > a"))
+    Rawdata.append(bsobj[i].select(Selector_data["opencritic_gamelist"]))
 
 for li in Rawdata:
     for n in li:
         names.append(n.text)
         urls.append("https://opencritic.com" + n["href"])
+        print(n.text + " is found!")
 
 dic_name["GameList"] = names
 

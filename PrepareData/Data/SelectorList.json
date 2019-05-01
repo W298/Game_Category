@@ -1,4 +1,9 @@
 {
+  "opencritic_gamelist" : "body > app-root > div > div > app-browse-platform > div > div.d-flex > div.flex-grow-1 > div.desktop-game-display > div > div > div.game-name.col > a",
   "opencritic_chartpage_score" : "body > app-root > div > div > app-game-data-visualizations > div > div.d-flex.mb-4 > div.flex-grow-1 > div > app-game-data-visualization-bar-row > div.chart-row-v2 > div > div.d-flex.review-header-info.mt-2 > span.mr-2 > app-score-display > span",
-  "opencritic_reviewpage_score" : "body > app-root > div > div > app-game-reviews > div > div.d-flex > div.flex-grow-1 > app-review-table > div > div:nth-child(2) > app-review-table-row > div > div.col-md-8 > div.d-flex > div.flex-grow-1.score-display > app-score-display > span"
+  "opencritic_reviewpage_score" : "body > app-root > div > div > app-game-reviews > div > div.d-flex > div.flex-grow-1 > app-review-table > div > div:nth-child(2) > app-review-table-row > div > div.col-md-8 > div.d-flex > div.flex-grow-1.score-display > app-score-display > span",
+  "opencritic_summarypage_words" : "body > app-root > div > div > app-game-overview > div > div > div.container > div.row > div.col > app-game-overview-general-info > div.row.description-section.show-full > div > div > div.col.description > div:nth-child(1)",
+  "opencritic_summarypage_words_alter" : "body > app-root > div > div > app-game-overview > div > div.game > div:nth-child(2) > div > div.col > app-game-overview-general-info > div.row.description-section.show-full > div > div > div.col.description > div:nth-child(1)",
+  "opencritic_summarypage_words_alter2" : "body > app-root > div > div > app-game-overview > div > div > div.container > div.row > div.col > app-game-overview-general-info > div.row.description-section > div > div > div.col.description > div:nth-child(1)",
+  "opencritic_summarypage_words_alter3" : "body > app-root > div > div > app-game-overview > div > div.game > div:nth-child(2) > div > div.col > app-game-overview-general-info > div.row.description-section > div > div > div.col.description > div:nth-child(1)"
 }
