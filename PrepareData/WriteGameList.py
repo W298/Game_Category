@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 
 dic_name = {"GameList" : []}
-dic_url = {"Opencritic": {}, "IGN": {}, "Metacritic" : {}}
+dic_url = {}
 
 def OpencriticGameList():
     N = 1
@@ -25,15 +25,24 @@ def OpencriticGameList():
     for li in Rawdata:
         for n in li:
             names.append(n.text)
-            urls.append("https://opencritic.com" + n["href"])
             print(n.text + " is found!(Opencritic)")  # Debugging
 
     dic_name["GameList"].extend(names)
 
-    for i in range(len(names)):
-        dic_url["Opencritic"][names[i]] = {"url": urls[i], "chart": (urls[i] + "/charts"),
-                                           "review": (urls[i] + "/reviews")}
+    return Rawdata
 
+
+def OpencriticURLList(Rawdata):
+    names = []
+    urls = []
+
+    for li in Rawdata:
+        for n in li:
+            urls.append("https://opencritic.com" + n["href"])
+
+    for i in range(len(names)):
+        dic_url[names[i]]["Opencritic"] = {"url": urls[i], "chart": (urls[i] + "/charts"),
+                                           "review": (urls[i] + "/reviews")}
 
 def IGNGameList():
 
@@ -77,6 +86,44 @@ def MetacriticGameList():
         dic_url["Metacritic"][names[i]] = {"url": urls[i], "chart": (urls[i] + "/charts"),
                                            "review": (urls[i] + "/reviews")}
 
+    return Rawdata
+
+def MetacriticURLList(Rawdata):
+    names = []
+    urls = []
+
+    for li in Rawdata:
+        for n in li:
+            names.append(n.text.strip())
+            urls.append("https://www.metacritic.com" + n["href"])
+
+    for i in range(len(names)):
+        dic_url[names[i]]["Metacritic"] = {"url": urls[i], "chart": (urls[i] + "/charts"),
+                                           "review": (urls[i] + "/reviews")}
+
+
+def ManageGameList():
+    for i in range(len(dic_name["GameList"])):
+        dic_name["GameList"][i] = dic_name["GameList"][i].replace(" ", "").lower()
+
+    tmpset = set(dic_name["GameList"])
+    dic_name["GameList"].clear()
+
+    for ele in tmpset:
+        dic_name["GameList"].append(ele)
+
+
+    keys = dic_url.keys()
+
+    for i in range(len(keys)):
+        for j in range(len(keys)):
+            if(keys[j].replace(" ","").lower() == keys[j+i+1].replace(" ","").lower()):
+                dic_url[keys[i]].update(dic_url[keys[j][""]])
+
+
+
+
+
 
 def WriteData():
     with open("Data/GameList.json", 'a') as GameList:
@@ -86,6 +133,7 @@ def WriteData():
         URLList.write(json.dumps(dic_url))
 
 
+
 OpencriticGameList()
 MetacriticGameList()
-WriteData()
+ManageGameList()
