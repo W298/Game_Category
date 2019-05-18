@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from difflib import SequenceMatcher
 import json
 
 dic_name = {"GameList" : []}
@@ -31,31 +32,6 @@ def OpencriticGameList():
 
     return Rawdata
 
-
-def OpencriticURLList(Rawdata):
-    names = []
-    urls = []
-
-    for li in Rawdata:
-        for n in li:
-            urls.append("https://opencritic.com" + n["href"])
-
-    for i in range(len(names)):
-        dic_url[names[i]]["Opencritic"] = {"url": urls[i], "chart": (urls[i] + "/charts"),
-                                           "review": (urls[i] + "/reviews")}
-
-def IGNGameList():
-
-    headers = {'User-Agent': 'Chrome/66.0.3359.181'}
-
-    with open("Data/SelectorList.json", 'r') as Selector_json:
-        Selector_data = json.load(Selector_json)
-
-    bsobj = BeautifulSoup(requests.get("https://www.ign.com/reviews/games", headers=headers).text, "html.parser")
-    Rawdata = bsobj.select("#page > div.jsx-3405344643 > main > div.jsx-3448337366.review-content-feed > section.jsx-3995683049.grid.page-content.content-feed-grid > section.jsx-3272103915.main-content > article:nth-child(1) > div > div.jsx-201083914.item-details > a")
-
-    print(Rawdata)
-
 def MetacriticGameList():
     N = 1
     bsobj = []
@@ -82,48 +58,51 @@ def MetacriticGameList():
 
     dic_name["GameList"].extend(names)
 
-    for i in range(len(names)):
-        dic_url["Metacritic"][names[i]] = {"url": urls[i], "chart": (urls[i] + "/charts"),
-                                           "review": (urls[i] + "/reviews")}
-
     return Rawdata
 
-def MetacriticURLList(Rawdata):
-    names = []
+def CleanGameList():
+    for i in range(len(dic_name["GameList"])):
+        for j in range(len(dic_name["GameList"]) - i - 1):
+            if(SequenceMatcher(None, dic_name["GameList"][i], dic_name["GameList"][j + i + 1]).ratio() >= 0.95):
+                print(dic_name["GameList"][i] + "[" + str(i) + "]" + "\t" + dic_name["GameList"][i + j + 1] + "[" + str(i+j+1) + "]" + " /" + str(SequenceMatcher(None, dic_name["GameList"][i], dic_name["GameList"][j + i + 1]).ratio()))
+
+    tmpli = dic_name["GameList"][:]
+    dic_name["GameList"].clear()
+
+    dic_name["GameList"] = list(filter(lambda x: x != "", tmpli))
+
+def OpencriticURLList(Rawdata):
     urls = []
 
     for li in Rawdata:
         for n in li:
-            names.append(n.text.strip())
-            urls.append("https://www.metacritic.com" + n["href"])
+            condition = False
 
-    for i in range(len(names)):
-        dic_url[names[i]]["Metacritic"] = {"url": urls[i], "chart": (urls[i] + "/charts"),
-                                           "review": (urls[i] + "/reviews")}
+            for j in dic_name["GameList"]:
+                if(SequenceMatcher(None, n.text, j).ratio() >= 0.95):
+                    condition = True
+                    break
 
+            if (condition):
+                urls.append("https://opencritic.com" + n["href"])
+                dic_url.update({n.text : {"Opencritic" : {"url": ("https://opencritic.com" + n["href"]), "chart": ("https://opencritic.com" + n["href"] + "/charts"),
+                                           "review": ("https://opencritic.com" + n["href"] + "/reviews")}}})
 
-def ManageGameList():
-    for i in range(len(dic_name["GameList"])):
-        dic_name["GameList"][i] = dic_name["GameList"][i].replace(" ", "").lower()
+def MetacriticURLList(Rawdata):
+    urls = []
 
-    tmpset = set(dic_name["GameList"])
-    dic_name["GameList"].clear()
+    for li in Rawdata:
+        for n in li:
+            condition = False
 
-    for ele in tmpset:
-        dic_name["GameList"].append(ele)
+            for j in dic_name["GameList"]:
+                if(SequenceMatcher(None, n.text, j).ratio() >= 0.95):
+                    condition = True
+                    break
 
-
-    keys = dic_url.keys()
-
-    for i in range(len(keys)):
-        for j in range(len(keys)):
-            if(keys[j].replace(" ","").lower() == keys[j+i+1].replace(" ","").lower()):
-                dic_url[keys[i]].update(dic_url[keys[j][""]])
-
-
-
-
-
+            if (condition):
+                urls.append("https://www.metacritic.com" + n["href"])
+                dic_url.update({n.text : {"Metacritic" : {"url" : ("https://www.metacritic.com" + n["href"])}}})
 
 def WriteData():
     with open("Data/GameList.json", 'a') as GameList:
@@ -134,6 +113,23 @@ def WriteData():
 
 
 
-OpencriticGameList()
-MetacriticGameList()
-ManageGameList()
+r1 = OpencriticGameList()
+r2 = MetacriticGameList()
+
+CleanGameList()
+OpencriticURLList(r1)
+MetacriticURLList(r2)
+
+WriteData()
+
+# def IGNGameList():
+#
+#     headers = {'User-Agent': 'Chrome/66.0.3359.181'}
+#
+#     with open("Data/SelectorList.json", 'r') as Selector_json:
+#         Selector_data = json.load(Selector_json)
+#
+#     bsobj = BeautifulSoup(requests.get("https://www.ign.com/reviews/games", headers=headers).text, "html.parser")
+#     Rawdata = bsobj.select("#page > div.jsx-3405344643 > main > div.jsx-3448337366.review-content-feed > section.jsx-3995683049.grid.page-content.content-feed-grid > section.jsx-3272103915.main-content > article:nth-child(1) > div > div.jsx-201083914.item-details > a")
+#
+#     print(Rawdata)
