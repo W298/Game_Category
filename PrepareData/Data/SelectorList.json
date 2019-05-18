@@ -10,5 +10,6 @@
   "opencritic_summarypage_words_2" : "body > app-root > div > div > app-game-overview > div > div > div.container > div.row > div.col > app-game-overview-summary > div > div.row.pro-con-row.my-2 > div:nth-child(2)",
   "opencritic_summarypage_words_3" : "body > app-root > div > div > app-game-overview > div > div > div.container > div.row > div.col > app-game-overview-summary > div > div.row.pro-con-row.my-2 > div:nth-child(3)",
   "IGN_gamelist" : "#page > div.jsx-3405344643 > main > div.jsx-3448337366.review-content-feed > section > section.jsx-3272103915.main-content > article > div > div.jsx-201083914.item-details > a > h3 > span",
-  "metacritic_gamelist" : "#main > div.module.filter.score_filter > div.module.products_module.list_product_condensed_module > div.body > div.body_wrap > div > ol > li > div > div.basic_stat.product_title > a"
+  "metacritic_gamelist" : "#main > div.module.filter.score_filter > div.module.products_module.list_product_condensed_module > div.body > div.body_wrap > div > ol > li > div > div.basic_stat.product_title > a",
+  "metacritic_summarypage_score" : "#main > div > div.with_trailer > div > div > div.summary_wrap > div.section.product_scores > div.details.main_details > div > div > a > div > span"
 }
