@@ -71,22 +71,30 @@ def CleanGameList():
 
     dic_name["GameList"] = list(filter(lambda x: x != "", tmpli))
 
+
+def InitURLList():
+    for ele in dic_name["GameList"]:
+        dic_url[ele] = {}
+
 def OpencriticURLList(Rawdata):
     urls = []
 
     for li in Rawdata:
         for n in li:
             condition = False
+            realname = ""
 
             for j in dic_name["GameList"]:
                 if(SequenceMatcher(None, n.text, j).ratio() >= 0.95):
+                    realname = j
+
                     condition = True
                     break
 
             if (condition):
                 urls.append("https://opencritic.com" + n["href"])
-                dic_url.update({n.text : {"Opencritic" : {"url": ("https://opencritic.com" + n["href"]), "chart": ("https://opencritic.com" + n["href"] + "/charts"),
-                                           "review": ("https://opencritic.com" + n["href"] + "/reviews")}}})
+                dic_url[realname].update({"Opencritic" : {"url": ("https://opencritic.com" + n["href"]), "chart": ("https://opencritic.com" + n["href"] + "/charts"),
+                                           "review": ("https://opencritic.com" + n["href"] + "/reviews")}})
 
 def MetacriticURLList(Rawdata):
     urls = []
@@ -94,15 +102,20 @@ def MetacriticURLList(Rawdata):
     for li in Rawdata:
         for n in li:
             condition = False
+            realname = ""
 
             for j in dic_name["GameList"]:
-                if(SequenceMatcher(None, n.text, j).ratio() >= 0.95):
+
+                if(SequenceMatcher(None, n.text.strip(), j.strip()).ratio() >= 0.95):
+                    realname = j.strip()
+
                     condition = True
                     break
 
+            print(realname, n.text.strip())
             if (condition):
                 urls.append("https://www.metacritic.com" + n["href"])
-                dic_url.update({n.text : {"Metacritic" : {"url" : ("https://www.metacritic.com" + n["href"])}}})
+                dic_url[realname].update({"Metacritic" : {"url" : ("https://www.metacritic.com" + n["href"])}})
 
 def WriteData():
     with open("Data/GameList.json", 'a') as GameList:
@@ -117,10 +130,14 @@ r1 = OpencriticGameList()
 r2 = MetacriticGameList()
 
 CleanGameList()
+InitURLList()
+
+print(dic_name)
+
 OpencriticURLList(r1)
 MetacriticURLList(r2)
 
-WriteData()
+print(dic_url)
 
 # def IGNGameList():
 #

@@ -55,7 +55,6 @@ def CollectOpencriticScore(dicdata):
         dicdata[game]["Opencritic"].extend(data)
         print("Opencritic reivew page score analyzed: " + game)  # Debugging
 
-
 def CollectOpencriticWords(dicdata):
     with open("Data/GameList.json", 'r') as GameList_json:
         GameList_data = json.load(GameList_json)
