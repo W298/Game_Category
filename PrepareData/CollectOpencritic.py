@@ -13,47 +13,50 @@ def CollectOpencriticScore(dicdata):
     # ----------------------------------------------------------------------------------------------Get chart page score
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data["Opencritic"][game]["chart"]).text
+        if("Opencritic" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["Opencritic"]["chart"]).text
 
-        BSObject = BeautifulSoup(html, "html.parser")
+            BSObject = BeautifulSoup(html, "html.parser")
 
-        Rawdata = BSObject.select(Selector_data["opencritic_chartpage_score"])
-        data = []
-        for str in Rawdata:
-            score = str.text
+            Rawdata = BSObject.select(Selector_data["opencritic_chartpage_score"])
+            data = []
+            for str in Rawdata:
+                score = str.text
 
-            if (score and score[0] == " "):
-                indexofslice = score.find('/')
-                if (indexofslice == -1):
-                    data.append(int(score[1:-1]))
-                else:
-                    firstdigit = score[1:indexofslice - 1]
-                    seconddigit = score[indexofslice + 2:]
-                    data.append(int((float(firstdigit) / float(seconddigit)) * 100))
+                if (score and score[0] == " "):
+                    indexofslice = score.find('/')
+                    if (indexofslice == -1):
+                        data.append(int(score[1:-1]))
+                    else:
+                        firstdigit = score[1:indexofslice - 1]
+                        seconddigit = score[indexofslice + 2:]
+                        data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
-        dicdata[game]["Opencritic"].extend(data)
-        print("Opencritic chart page score analyzed: " + game)  # Debugging
+            dicdata[game]["Opencritic"].extend(data)
+            print("Opencritic chart page score analyzed: " + game)  # Debugging
 
     # ---------------------------------------------------------------------------------------------Get review page score
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data["Opencritic"][game]["review"]).text
+        if ("Opencritic" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["Opencritic"]["review"]).text
 
-        BSObject = BeautifulSoup(html, "html.parser")
+            BSObject = BeautifulSoup(html, "html.parser")
 
-        Rawdata = BSObject.select(Selector_data["opencritic_reviewpage_score"])
-        data = []
-        for str in Rawdata:
-            score = str.text
+            Rawdata = BSObject.select(Selector_data["opencritic_reviewpage_score"])
+            data = []
+            for str in Rawdata:
+                score = str.text
 
-            if (score and not score == "Unscored" and score.find('/') != -1):
-                indexofslice = score.find('/')
-                firstdigit = score[1:indexofslice - 1]
-                seconddigit = score[indexofslice + 2:]
-                data.append(int((float(firstdigit) / float(seconddigit)) * 100))
+                if (score and not score is "Unscored" and '/' in score):
+                    indexofslice = score.find('/')
+                    firstdigit = score[1:indexofslice - 1]
+                    seconddigit = score[indexofslice + 2:]
+                    if (firstdigit.isdigit() and seconddigit.isdigit()):
+                        data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
-        dicdata[game]["Opencritic"].extend(data)
-        print("Opencritic reivew page score analyzed: " + game)  # Debugging
+            dicdata[game]["Opencritic"].extend(data)
+            print("Opencritic reivew page score analyzed: " + game)  # Debugging
 
 def CollectOpencriticWords(dicdata):
     with open("Data/GameList.json", 'r') as GameList_json:
@@ -65,7 +68,7 @@ def CollectOpencriticWords(dicdata):
 
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data["Opencritic"][game]["url"]).text
+        html = requests.get(url=URL_data[game]["Opencritic"]["url"]).text
 
         BSObject = BeautifulSoup(html, "html.parser")
 
@@ -97,7 +100,7 @@ def CollectOpencriticSummaryWords(dicdata):
         URL_data = json.load(URL_json)
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data["Opencritic"][game]["url"]).text
+        html = requests.get(url=URL_data[game]["Opencritic"]["url"]).text
 
         BSObject = BeautifulSoup(html, "html.parser")
 
