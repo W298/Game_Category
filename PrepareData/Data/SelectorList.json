@@ -11,5 +11,10 @@
   "opencritic_summarypage_words_3" : "body > app-root > div > div > app-game-overview > div > div > div.container > div.row > div.col > app-game-overview-summary > div > div.row.pro-con-row.my-2 > div:nth-child(3)",
   "IGN_gamelist" : "#page > div.jsx-3405344643 > main > div.jsx-3448337366.review-content-feed > section > section.jsx-3272103915.main-content > article > div > div.jsx-201083914.item-details > a > h3 > span",
   "metacritic_gamelist" : "#main > div.module.filter.score_filter > div.module.products_module.list_product_condensed_module > div.body > div.body_wrap > div > ol > li > div > div.basic_stat.product_title > a",
-  "metacritic_summarypage_score" : "#main > div > div.with_trailer > div > div > div.summary_wrap > div.section.product_scores > div.details.main_details > div > div > a > div > span"
+  "metacritic_summarypage_score" : "#main > div > div.with_trailer > div > div > div.summary_wrap > div.section.product_scores > div.details.main_details > div > div > a > div > span",
+  "metacritic_summarypage_score_alter" : "#main > div > div.module.product_data.product_data_summary > div > div.summary_wrap > div.section.product_scores > div.details.main_details > div > div > a > div > span",
+  "metacritic_criticpage_score_first" : "#main > div.module.reviews_module.critic_reviews_module > div > ol > li.review.critic_review.first_review > div > div > div > div > div > div:nth-child(1) > div.review_stats > div.review_grade > div",
+  "metacritic_criticpage_score" :  "#main > div.module.reviews_module.critic_reviews_module > div > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_stats > div.review_grade > div",
+  "metacritic_criticpage_word" : "#main > div.module.reviews_module.critic_reviews_module > div.body.product_reviews > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_body",
+  "metacritic_criticpage_word_alter" : "#main > div.module.reviews_module.critic_reviews_module > div > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_body"
 }

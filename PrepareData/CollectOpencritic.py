@@ -68,28 +68,29 @@ def CollectOpencriticWords(dicdata):
 
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data[game]["Opencritic"]["url"]).text
+        if ("Opencritic" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["Opencritic"]["url"]).text
 
-        BSObject = BeautifulSoup(html, "html.parser")
+            BSObject = BeautifulSoup(html, "html.parser")
 
-        Rawdata = BSObject.select(Selector_data["opencritic_infopage_words"])
-
-        if not Rawdata:
-            Rawdata = BSObject.select(Selector_data["opencritic_infopage_words_alter"])
+            Rawdata = BSObject.select(Selector_data["opencritic_infopage_words"])
 
             if not Rawdata:
-                Rawdata = BSObject.select(Selector_data["opencritic_infopage_words_alter2"])
+                Rawdata = BSObject.select(Selector_data["opencritic_infopage_words_alter"])
 
                 if not Rawdata:
-                    Rawdata = BSObject.select(Selector_data["opencritic_infopage_words_alter3"])
+                    Rawdata = BSObject.select(Selector_data["opencritic_infopage_words_alter2"])
 
-        for str in Rawdata:
-            text = str.text
+                    if not Rawdata:
+                        Rawdata = BSObject.select(Selector_data["opencritic_infopage_words_alter3"])
 
-        txli = text.split()
+            for str in Rawdata:
+                text = str.text
 
-        dicdata[game]["Opencritic"].extend(txli)
-        print("Opencritic info page words collected: " + game)
+            txli = text.split()
+
+            dicdata[game]["Opencritic"].extend(txli)
+            print("Opencritic info page words collected: " + game)
 
 def CollectOpencriticSummaryWords(dicdata):
     with open("Data/GameList.json", 'r') as GameList_json:
@@ -100,23 +101,24 @@ def CollectOpencriticSummaryWords(dicdata):
         URL_data = json.load(URL_json)
 
     for game in GameList_data["GameList"]:
-        html = requests.get(url=URL_data[game]["Opencritic"]["url"]).text
+        if ("Opencritic" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["Opencritic"]["url"]).text
 
-        BSObject = BeautifulSoup(html, "html.parser")
+            BSObject = BeautifulSoup(html, "html.parser")
 
-        Rawdatali = []
+            Rawdatali = []
 
-        Rawdatali.append(BSObject.select(Selector_data["opencritic_summarypage_words_1"]))
-        Rawdatali.append(BSObject.select(Selector_data["opencritic_summarypage_words_2"]))
-        Rawdatali.append(BSObject.select(Selector_data["opencritic_summarypage_words_3"]))
+            Rawdatali.append(BSObject.select(Selector_data["opencritic_summarypage_words_1"]))
+            Rawdatali.append(BSObject.select(Selector_data["opencritic_summarypage_words_2"]))
+            Rawdatali.append(BSObject.select(Selector_data["opencritic_summarypage_words_3"]))
 
-        textli = []
+            textli = []
 
-        for Raw in Rawdatali:
-            for str in Raw:
-                textli.append(str.text.strip())
+            for Raw in Rawdatali:
+                for str in Raw:
+                    textli.append(str.text.strip())
 
-        if(textli is not None):
-            dicdata[game]["Opencritic"].extend(textli)
+            if (textli is not None):
+                dicdata[game]["Opencritic"].extend(textli)
 
-        print("Opencritic summary page words collected: " + game)
+            print("Opencritic summary page words collected: " + game)
