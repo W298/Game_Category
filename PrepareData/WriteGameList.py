@@ -106,14 +106,53 @@ def MetacriticURLList(Rawdata):
                     condition = True
                     break
 
-            print(realname, n.text.strip())
             if (condition):
                 dic_url[realname].update({"Metacritic" : {"url" : ("https://www.metacritic.com" + n["href"])}})
 
-def WriteData():
+
+def IGNURLList():
+    with open("Data/SelectorList.json", 'r') as Selector_json:
+        Selector_data = json.load(Selector_json)
+    with open("Data/URL_List.json", 'r') as URL_json:
+        URL_data = json.load(URL_json)
+
+    headers = {'User-Agent': 'Chrome/66.0.3359.181'}
+
+    urls = []
+
+    for game in dic_name["GameList"]:
+        bsobj = BeautifulSoup(requests.get("https://www.ign.com/search?q=" + game, headers=headers).text, "html.parser")
+
+        num = 1
+
+        for i in range(10):
+            Rawdata = bsobj.select("#search-list > div:nth-child({0}) > div > div.search-item-sub-title".format(i+1))
+
+            for e in Rawdata:
+                det = e.text
+
+            if ("IGN" in det):
+                num = i + 1
+                break
+
+        Rawdata = bsobj.select("#search-list > div:nth-child({0}) > div > div.search-item-title > a".format(num))
+
+        url = ""
+
+        for e in Rawdata:
+            url = e["href"]
+
+        dic_url[game].update({"IGN" : {"url" : url}})
+
+        print("URL of " + game + " is found!") # Debugging
+
+
+def WriteGameList():
     with open("Data/GameList.json", 'a') as GameList:
         GameList.write(json.dumps(dic_name))
 
+
+def WriteURLList():
     with open("Data/URL_List.json", 'a') as URLList:
         URLList.write(json.dumps(dic_url))
 
@@ -121,27 +160,11 @@ def WriteData():
 
 r1 = OpencriticGameList()
 r2 = MetacriticGameList()
-
 CleanGameList()
+WriteGameList()
+
 InitURLList()
-
-print(dic_name)
-
+IGNURLList()
 OpencriticURLList(r1)
 MetacriticURLList(r2)
-
-print(dic_url)
-
-WriteData()
-
-# def IGNGameList():
-#
-#     headers = {'User-Agent': 'Chrome/66.0.3359.181'}
-#
-#     with open("Data/SelectorList.json", 'r') as Selector_json:
-#         Selector_data = json.load(Selector_json)
-#
-#     bsobj = BeautifulSoup(requests.get("https://www.ign.com/reviews/games", headers=headers).text, "html.parser")
-#     Rawdata = bsobj.select("#page > div.jsx-3405344643 > main > div.jsx-3448337366.review-content-feed > section.jsx-3995683049.grid.page-content.content-feed-grid > section.jsx-3272103915.main-content > article:nth-child(1) > div > div.jsx-201083914.item-details > a")
-#
-#     print(Rawdata)
+WriteURLList()

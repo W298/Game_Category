@@ -16,5 +16,6 @@
   "metacritic_criticpage_score_first" : "#main > div.module.reviews_module.critic_reviews_module > div > ol > li.review.critic_review.first_review > div > div > div > div > div > div:nth-child(1) > div.review_stats > div.review_grade > div",
   "metacritic_criticpage_score" :  "#main > div.module.reviews_module.critic_reviews_module > div > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_stats > div.review_grade > div",
   "metacritic_criticpage_word" : "#main > div.module.reviews_module.critic_reviews_module > div.body.product_reviews > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_body",
-  "metacritic_criticpage_word_alter" : "#main > div.module.reviews_module.critic_reviews_module > div > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_body"
+  "metacritic_criticpage_word_alter" : "#main > div.module.reviews_module.critic_reviews_module > div > ol > li > div > div > div > div > div > div:nth-child(1) > div.review_body",
+  "dict" : "#dataset-cald4 > div > div > div.di-body > div > div > div > div.pos-header > div > span > span"
 }
