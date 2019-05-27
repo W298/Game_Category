@@ -11,3 +11,65 @@ def CollectIGNScore(dicdata):
         URL_data = json.load(URL_json)
 
     headers = {'User-Agent': 'Chrome/66.0.3359.181'}
+
+    for game in GameList_data["GameList"]:
+        if("IGN" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["IGN"]["url"], headers=headers).text
+            BSObject = BeautifulSoup(html, "html.parser")
+            Rawdata = BSObject.select(Selector_data["ign_score"])
+
+            score = 0
+            for ele in Rawdata:
+                score = ele.text
+
+            dicdata[game]["IGN"].append(score)
+
+
+def CollectIGNWords(dicdata):
+    with open("Data/GameList.json", 'r') as GameList_json:
+        GameList_data = json.load(GameList_json)
+    with open("Data/SelectorList.json", 'r') as Selector_json:
+        Selector_data = json.load(Selector_json)
+    with open("Data/URL_List.json", 'r') as URL_json:
+        URL_data = json.load(URL_json)
+
+    headers = {'User-Agent': 'Chrome/66.0.3359.181'}
+
+    for game in GameList_data["GameList"]:
+        if("IGN" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["IGN"]["url"], headers=headers).text
+            BSObject = BeautifulSoup(html, "html.parser")
+            Rawdata = BSObject.select("#article-content")
+
+            data = []
+
+            for p in Rawdata:
+                str = p.text.replace('\n', "").replace(" " * 44, "").replace(" " * 20, "").replace("Share.", "").replace('.', "")
+                data.append(str.split())
+
+            dicdata[game]["IGN"].extend(data)
+
+
+def CollectIGNSummaryWords(dicdata):
+    with open("Data/GameList.json", 'r') as GameList_json:
+        GameList_data = json.load(GameList_json)
+    with open("Data/SelectorList.json", 'r') as Selector_json:
+        Selector_data = json.load(Selector_json)
+    with open("Data/URL_List.json", 'r') as URL_json:
+        URL_data = json.load(URL_json)
+
+    headers = {'User-Agent': 'Chrome/66.0.3359.181'}
+
+    for game in GameList_data["GameList"]:
+        if ("IGN" in URL_data[game].keys()):
+            html = requests.get(url=URL_data[game]["IGN"]["url"], headers=headers).text
+            BSObject = BeautifulSoup(html, "html.parser")
+            Rawdata = BSObject.select(Selector_data["ign_summarypage_score"])
+
+            data = []
+
+            for div in Rawdata:
+                for el in div:
+                    data.append(el)
+
+        dicdata[game]["IGN"].extend(data)

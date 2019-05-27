@@ -111,11 +111,6 @@ def MetacriticURLList(Rawdata):
 
 
 def IGNURLList():
-    with open("Data/SelectorList.json", 'r') as Selector_json:
-        Selector_data = json.load(Selector_json)
-    with open("Data/URL_List.json", 'r') as URL_json:
-        URL_data = json.load(URL_json)
-
     headers = {'User-Agent': 'Chrome/66.0.3359.181'}
 
     urls = []
