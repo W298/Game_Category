@@ -7,7 +7,7 @@ dic_name = {"GameList" : []}
 dic_url = {}
 
 def OpencriticGameList():
-    N = 1
+    N = 62
     bsobj = []
     Rawdata = []
     names = []
@@ -18,6 +18,7 @@ def OpencriticGameList():
     for i in range(N):
         bsobj.append(BeautifulSoup(requests.get("https://opencritic.com/browse/pc/all-time/score/" + str(i + 1)).text,
                                    "html.parser"))
+        print(str(i) + " page is prepared")
 
     for i in range(N):
         Rawdata.append(bsobj[i].select(Selector_data["opencritic_gamelist"]))
@@ -32,7 +33,7 @@ def OpencriticGameList():
     return Rawdata
 
 def MetacriticGameList():
-    N = 1
+    N = 42
     bsobj = []
     Rawdata = []
     names = []
@@ -45,6 +46,8 @@ def MetacriticGameList():
     for i in range(N):
         bsobj.append(BeautifulSoup(requests.get("https://www.metacritic.com/browse/games/score/metascore/all/pc/filtered?sort=desc&page=" + str(i), headers=headers).text,
                                    "html.parser"))
+        print(str(i) + " page is prepared")
+
     for i in range(N):
         Rawdata.append(bsobj[i].select(Selector_data["metacritic_gamelist"]))
 
@@ -86,7 +89,7 @@ def OpencriticURLList(Rawdata):
                     realname = j
 
                     condition = True
-                    break
+                    breakxw
 
             if (condition):
                 dic_url[realname].update({"Opencritic" : {"url": ("https://opencritic.com" + n["href"]), "chart": ("https://opencritic.com" + n["href"] + "/charts"),
@@ -117,6 +120,8 @@ def IGNURLList():
 
     for game in dic_name["GameList"]:
         bsobj = BeautifulSoup(requests.get("https://www.ign.com/search?q=" + game, headers=headers).text, "html.parser")
+
+        print("finding " + game + "...")
 
         num = 1
 
