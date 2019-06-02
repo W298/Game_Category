@@ -113,12 +113,34 @@ def MetacriticURLList(Rawdata):
                 dic_url[realname].update({"Metacritic" : {"url" : ("https://www.metacritic.com" + n["href"])}})
 
 
+def MetacriticURLListSearchByGameList():
+
+    with open("Data/GameList.json", 'r')as GameList_json:
+        GameList_data = json.load(GameList_json)
+
+    for game in GameList_data["GameList"]:
+        url = "https://www.metacritic.com/search/game/" + game + "/results?plats[3]=1&search_type=advanced"
+        bsobj = BeautifulSoup(requests.get(url, headers={'User-Agent': 'Chrome/66.0.3359.181'}).text, "html.parser")
+
+        print("finding " + game + "...")
+
+        Rawdata = bsobj.select("#main_content > div.fxdrow.search_results_wrapper > div.module.search_results.fxdcol.gu6 > div.body > ul > li.result.first_result > div > div.basic_stats.has_thumbnail > div > h3 > a")
+
+        tempurl = ""
+
+        for e in Rawdata:
+            tempurl = e["href"]
+
+        dic_url[game].update({"Metacritic" : {"url" : "https://www.metacritic.com" + url}})
+
+
 def IGNURLList():
     headers = {'User-Agent': 'Chrome/66.0.3359.181'}
 
-    urls = []
+    with open("Data/GameList.json", 'r')as GameList_json:
+        GameList_data = json.load(GameList_json)
 
-    for game in dic_name["GameList"]:
+    for game in GameList_data["GameList"]:
         bsobj = BeautifulSoup(requests.get("https://www.ign.com/search?q=" + game, headers=headers).text, "html.parser")
 
         print("finding " + game + "...")
@@ -158,13 +180,14 @@ def WriteURLList():
 
 
 
-r1 = OpencriticGameList()
-r2 = MetacriticGameList()
-CleanGameList()
-WriteGameList()
-
+# r1 = OpencriticGameList()
+# r2 = MetacriticGameList()
+# CleanGameList()
+# WriteGameList()
+#
 InitURLList()
+MetacriticURLListSearchByGameList()
+# OpencriticURLList(r1)
+# MetacriticURLList(r2)
 IGNURLList()
-OpencriticURLList(r1)
-MetacriticURLList(r2)
 WriteURLList()
