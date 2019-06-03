@@ -74,7 +74,10 @@ def CleanGameList():
 
 
 def InitURLList():
-    for ele in dic_name["GameList"]:
+    with open("Data/GameList.json", 'r') as GameList_json:
+        GameList_data = json.load(GameList_json)
+
+    for ele in GameList_data["GameList"]:
         dic_url[ele] = {}
 
 def OpencriticURLList(Rawdata):
@@ -89,7 +92,7 @@ def OpencriticURLList(Rawdata):
                     realname = j
 
                     condition = True
-                    breakxw
+                    break
 
             if (condition):
                 dic_url[realname].update({"Opencritic" : {"url": ("https://opencritic.com" + n["href"]), "chart": ("https://opencritic.com" + n["href"] + "/charts"),
@@ -112,17 +115,47 @@ def MetacriticURLList(Rawdata):
             if (condition):
                 dic_url[realname].update({"Metacritic" : {"url" : ("https://www.metacritic.com" + n["href"])}})
 
+def OpencriticURLListSearchByGameList():
+
+    with open("Data/GameList.json", 'r') as GameList_json:
+        GameList_data = json.load(GameList_json)
+
+
+    count = 0
+    for game in GameList_data["GameList"]:
+        url = "https://www.google.com/search?q= {game} opencritic".format(game = game)
+        bsobj = BeautifulSoup(requests.get(url, headers = {'User-Agent': 'Chrome/66.0.3359.181'}).text, "html.parser")
+
+        print("Opencritic / {} ... {}/{}".format(game, count, len(GameList_data["GameList"])))
+
+        Rawdata = bsobj.select("#rso > div:nth-child(1) > div > div > div > div > div.r > a")
+
+        if not Rawdata:
+            Rawdata = bsobj.select("#rso > div:nth-child(1) > div > div:nth-child(1) > div > div > div.r > a")
+
+        tempurl = ""
+
+        for e in Rawdata:
+            tempurl = e["href"]
+
+        dic_url[game].update({"Opencritic" : {"url" : tempurl, "chart" : (tempurl + "/charts"), "review" : ("tempurl" + "/reviews")}})
+
+        count += 1
+
+
 
 def MetacriticURLListSearchByGameList():
 
-    with open("Data/GameList.json", 'r')as GameList_json:
+    with open("Data/GameList.json", 'r') as GameList_json:
         GameList_data = json.load(GameList_json)
 
+
+    count = 0
     for game in GameList_data["GameList"]:
         url = "https://www.metacritic.com/search/game/" + game + "/results?plats[3]=1&search_type=advanced"
-        bsobj = BeautifulSoup(requests.get(url, headers={'User-Agent': 'Chrome/66.0.3359.181'}).text, "html.parser")
+        bsobj = BeautifulSoup(requests.get(url, headers = {'User-Agent': 'Chrome/66.0.3359.181'}).text, "html.parser")
 
-        print("finding " + game + "...")
+        print("Metacritic / {} ... {}/{}".format(game, count, len(GameList_data["GameList"])))
 
         Rawdata = bsobj.select("#main_content > div.fxdrow.search_results_wrapper > div.module.search_results.fxdcol.gu6 > div.body > ul > li.result.first_result > div > div.basic_stats.has_thumbnail > div > h3 > a")
 
@@ -131,7 +164,9 @@ def MetacriticURLListSearchByGameList():
         for e in Rawdata:
             tempurl = e["href"]
 
-        dic_url[game].update({"Metacritic" : {"url" : "https://www.metacritic.com" + url}})
+        dic_url[game].update({"Metacritic" : {"url" : "https://www.metacritic.com" + tempurl}})
+
+        count += 1
 
 
 def IGNURLList():
@@ -140,10 +175,12 @@ def IGNURLList():
     with open("Data/GameList.json", 'r')as GameList_json:
         GameList_data = json.load(GameList_json)
 
+
+    count = 0
     for game in GameList_data["GameList"]:
         bsobj = BeautifulSoup(requests.get("https://www.ign.com/search?q=" + game, headers=headers).text, "html.parser")
 
-        print("finding " + game + "...")
+        print("IGN / {} ... {}/{}".format(game, count, len(GameList_data["GameList"])))
 
         num = 1
 
@@ -166,7 +203,7 @@ def IGNURLList():
 
         dic_url[game].update({"IGN" : {"url" : url}})
 
-        print("URL of " + game + " is found!") # Debugging
+        count += 1
 
 
 def WriteGameList():
@@ -184,10 +221,9 @@ def WriteURLList():
 # r2 = MetacriticGameList()
 # CleanGameList()
 # WriteGameList()
-#
+
 InitURLList()
+OpencriticURLListSearchByGameList()
 MetacriticURLListSearchByGameList()
-# OpencriticURLList(r1)
-# MetacriticURLList(r2)
 IGNURLList()
 WriteURLList()

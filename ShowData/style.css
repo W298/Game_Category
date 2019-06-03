@@ -1,3 +1,5 @@
+a { text-decoration:none }
+
 h1
 {
     overflow: hidden;
@@ -83,7 +85,7 @@ hr {
     margin: 10px;
     font-family: "Arial Black", Gadget, sans-serif;
     font-size: 15px;
-    padding: 15px;
+    padding: 10px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
@@ -91,7 +93,7 @@ hr {
     color: #FFF;
     box-shadow: 0 0 20px #eee;
     border-radius: 10px;
-    width: 100px;
+    width: 300px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     cursor: pointer;
@@ -118,35 +120,8 @@ hr {
 .gradient-button-5 {background-image: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%)}
 .gradient-button-5:hover { background-position: right center; }
 
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
+.gradient-button-6 {background-image: linear-gradient(to right, #ff9966 0%, #ff5e62 51%, #ff9966 100%)}
 .gradient-button-6:hover { background-position: right center; }
 
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
-
-.gradient-button-6 {background-image: linear-gradient(to right, #84fab0 0%, #8fd3f4 51%, #84fab0 100%)}
-.gradient-button-6:hover { background-position: right center; }
+.gradient-button-7 {background-image: linear-gradient(to right, #36D1DC 0%, #5B86E5 51%, #36D1DC 100%)}
+.gradient-button-7:hover { background-position: right center; }
