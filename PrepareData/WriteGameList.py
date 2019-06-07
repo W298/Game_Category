@@ -95,8 +95,17 @@ def OpencriticURLList(Rawdata):
                     break
 
             if (condition):
-                dic_url[realname].update({"Opencritic" : {"url": ("https://opencritic.com" + n["href"]), "chart": ("https://opencritic.com" + n["href"] + "/charts"),
-                                           "review": ("https://opencritic.com" + n["href"] + "/reviews")}})
+                try:
+                    dic_url[realname].update({"Opencritic": {"url": ("https://opencritic.com" + n["href"]), "chart": (
+                                "https://opencritic.com" + n["href"] + "/charts"),
+                                                             "review": ("https://opencritic.com" + n[
+                                                                 "href"] + "/reviews")}})
+
+                    with open("Debug.txt", 'a') as Debug:  # Debugging.
+                        Debug.write("{game}, Opencritic, {url} \n".format(game=realname, url=n["href"]))
+                    break
+                except KeyError:
+                    break
 
 def MetacriticURLList(Rawdata):
     for li in Rawdata:
@@ -123,22 +132,19 @@ def OpencriticURLListSearchByGameList():
 
     count = 0
     for game in GameList_data["GameList"]:
-        url = "https://www.google.com/search?q= {game} opencritic".format(game = game)
+        url = "https://www.google.com/search?q= " + game + " opencritic"
         bsobj = BeautifulSoup(requests.get(url, headers = {'User-Agent': 'Chrome/66.0.3359.181'}).text, "html.parser")
 
         print("Opencritic / {} ... {}/{}".format(game, count, len(GameList_data["GameList"])))
 
-        Rawdata = bsobj.select("#rso > div:nth-child(1) > div > div > div > div > div.r > a")
+        Rawdata = bsobj.select("h3>r")
 
-        if not Rawdata:
-            Rawdata = bsobj.select("#rso > div:nth-child(1) > div > div:nth-child(1) > div > div > div.r > a")
+        print(Rawdata)
 
         tempurl = ""
 
         for e in Rawdata:
             tempurl = e["href"]
-
-        dic_url[game].update({"Opencritic" : {"url" : tempurl, "chart" : (tempurl + "/charts"), "review" : ("tempurl" + "/reviews")}})
 
         count += 1
 
@@ -165,6 +171,9 @@ def MetacriticURLListSearchByGameList():
             tempurl = e["href"]
 
         dic_url[game].update({"Metacritic" : {"url" : "https://www.metacritic.com" + tempurl}})
+
+        with open("Debug.txt", 'a') as Debug: # Debugging.
+            Debug.write("{game}, Metacritic, {url} \n".format(game = game, url = tempurl))
 
         count += 1
 
@@ -203,6 +212,9 @@ def IGNURLList():
 
         dic_url[game].update({"IGN" : {"url" : url}})
 
+        with open("Debug.txt", 'a') as Debug: # Debugging.
+            Debug.write("{game}, IGN, {url} \n".format(game = game, url = url))
+
         count += 1
 
 
@@ -223,7 +235,8 @@ def WriteURLList():
 # WriteGameList()
 
 InitURLList()
-OpencriticURLListSearchByGameList()
-MetacriticURLListSearchByGameList()
+# OpencriticURLList(r1)
+# OpencriticURLListSearchByGameList()
+# MetacriticURLListSearchByGameList()
 IGNURLList()
-WriteURLList()
+# WriteURLList()

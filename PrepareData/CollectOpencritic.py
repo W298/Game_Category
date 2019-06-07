@@ -12,6 +12,8 @@ def CollectOpencriticScore(dicdata):
 
     # ----------------------------------------------------------------------------------------------Get chart page score
 
+    count = 1
+
     for game in GameList_data["GameList"]:
         if("Opencritic" in URL_data[game].keys()):
             html = requests.get(url=URL_data[game]["Opencritic"]["chart"]).text
@@ -32,10 +34,22 @@ def CollectOpencriticScore(dicdata):
                         seconddigit = score[indexofslice + 2:]
                         data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
-            dicdata[game]["Opencritic"].extend(data)
-            print("Opencritic chart page score analyzed: " + game)  # Debugging
+            try:
+                dicdata[game]["Opencritic"].extend(data)
+                print("Opencritic chart page score analyzed: " + game + "{} / {}".format(count, len(
+                    GameList_data["GameList"])))  # Debugging
+
+                with open("Debug_ScoreData.txt", 'a') as Data:
+                    Data.write("{}, Opencritic chart, {} \n".format(game, data))
+
+            except:
+                print("Ignored")
+
+            count += 1
 
     # ---------------------------------------------------------------------------------------------Get review page score
+
+    count = 1
 
     for game in GameList_data["GameList"]:
         if ("Opencritic" in URL_data[game].keys()):
@@ -55,8 +69,17 @@ def CollectOpencriticScore(dicdata):
                     if (firstdigit.isdigit() and seconddigit.isdigit()):
                         data.append(int((float(firstdigit) / float(seconddigit)) * 100))
 
-            dicdata[game]["Opencritic"].extend(data)
-            print("Opencritic reivew page score analyzed: " + game)  # Debugging
+            try:
+                dicdata[game]["Opencritic"].extend(data)
+                print("Opencritic chart page score analyzed: " + game + "{} / {}".format(count, len(
+                    GameList_data["GameList"])))  # Debugging
+
+                with open("Debug_ScoreData.txt", 'a') as Data:
+                    Data.write("{}, Opencritic review, {} \n".format(game, data))
+            except:
+                print("Ignored")
+
+            count += 1
 
 def CollectOpencriticWords(dicdata):
     with open("Data/GameList.json", 'r') as GameList_json:

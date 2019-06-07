@@ -1,6 +1,7 @@
 import json
 import CollectOpencritic as co
 import CollectMetacritic as cm
+import CollectIGN as ci
 
 with open("Data/GameList.json", 'r') as GameList_json:
     GameList_data = json.load(GameList_json)
@@ -16,6 +17,7 @@ for game in GameList_data["GameList"]:
 
 co.CollectOpencriticScore(dicdata)
 cm.CollectMetacriticScore(dicdata)
+ci.CollectIGNScore(dicdata)
 
 # ------------------------------------------------------------------------------------------------------------Write Data
 

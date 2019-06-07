@@ -14,6 +14,8 @@ def CollectMetacriticScore(dicdata):
 
     # ----------------------------------------------------------------------------------------------Get chart page score
 
+    count = 1
+
     for game in GameList_data["GameList"]:
         if("Metacritic" in URL_data[game].keys()):
             html = requests.get(url=URL_data[game]["Metacritic"]["url"], headers=headers).text
@@ -32,10 +34,22 @@ def CollectMetacriticScore(dicdata):
                 for str in Rawdata:
                     score = str.text
 
-            dicdata[game]["Metacritic"].append(int(score))
-            print("Metacritic Summary page score analyzed: " + game)  # Debugging
+            try:
+                dicdata[game]["Metacritic"].append(int(score))
+                print("Metacritic chart page score analyzed: " + game + "{} / {}".format(count, len(
+                    GameList_data["GameList"])))  # Debugging
+
+                with open("Debug_ScoreData.txt", 'a') as Data:
+                    Data.write("{}, Metacritic chart, {} \n".format(game, score))
+
+            except:
+                print("Ignored")
+
+            count += 1
 
     # ---------------------------------------------------------------------------------------------Get review page score
+
+    count = 1
 
     for game in GameList_data["GameList"]:
         if("Metacritic" in URL_data[game].keys()):
@@ -50,8 +64,18 @@ def CollectMetacriticScore(dicdata):
                 score = str.text
                 data.append(score)
 
-            dicdata[game]["Metacritic"].extend(data)
-            print("Metacritic Summary page score analyzed: " + game)  # Debugging
+            try:
+                dicdata[game]["Metacritic"].extend(data)
+
+                print("Metacritic review page score analyzed: " + game + "{} / {}".format(count, len(
+                    GameList_data["GameList"])))  # Debugging
+
+                with open("Debug_ScoreData.txt", 'a') as Data:
+                    Data.write("{}, Metacritic review, {} \n".format(game, data))
+            except:
+                print("Ignored")
+
+            count += 1
 
 
 def CollectMetacriticWords(dicdata):

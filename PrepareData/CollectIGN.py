@@ -12,6 +12,8 @@ def CollectIGNScore(dicdata):
 
     headers = {'User-Agent': 'Chrome/66.0.3359.181'}
 
+    count = 1
+
     for game in GameList_data["GameList"]:
         if("IGN" in URL_data[game].keys()):
             html = requests.get(url=URL_data[game]["IGN"]["url"], headers=headers).text
@@ -22,7 +24,19 @@ def CollectIGNScore(dicdata):
             for ele in Rawdata:
                 score = ele.text
 
-            dicdata[game]["IGN"].append(score)
+            try:
+                dicdata[game]["IGN"].append(score)
+
+                print("IGN score analyzed: " + game + "{} / {}".format(count, len(
+                    GameList_data["GameList"])))  # Debugging
+
+                with open("Debug_ScoreData.txt", 'a') as Data:
+                    Data.write("{}, IGN, {} \n".format(game, score))
+
+            except:
+                print("Ignored")
+
+            count += 1
 
 
 def CollectIGNWords(dicdata):
