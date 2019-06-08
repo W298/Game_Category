@@ -15,8 +15,8 @@ for game in GameList_data["GameList"]:
 
 # -------------------------------------------------------------------------------------------------------------Edit Data
 
-co.CollectOpencriticScore(dicdata)
-cm.CollectMetacriticScore(dicdata)
+# co.CollectOpencriticScore(dicdata)
+# cm.CollectMetacriticScore(dicdata)
 ci.CollectIGNScore(dicdata)
 
 # ------------------------------------------------------------------------------------------------------------Write Data

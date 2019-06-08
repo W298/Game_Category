@@ -14,15 +14,30 @@ def CollectIGNScore(dicdata):
 
     count = 1
 
-    for game in GameList_data["GameList"]:
+    for game in GameList_data["GameList"][4521:]:
         if("IGN" in URL_data[game].keys()):
-            html = requests.get(url=URL_data[game]["IGN"]["url"], headers=headers).text
-            BSObject = BeautifulSoup(html, "html.parser")
-            Rawdata = BSObject.select(Selector_data["ign_score"])
+            try:
+                html = requests.get(url=URL_data[game]["IGN"]["url"], headers=headers).text
+                BSObject = BeautifulSoup(html, "html.parser")
+                Rawdata = BSObject.select(Selector_data["ign_score"])
 
-            score = 0
-            for ele in Rawdata:
-                score = ele.text
+                score = 0
+                for ele in Rawdata:
+                    score = ele.text
+
+            except requests.exceptions.MissingSchema:
+                print("Ignored")
+
+            scorenum = 0
+
+            try:
+                if ('.' in score):
+                    score = score.strip('\n').strip()
+                    scorenum = score[0] + score[2]
+                    score = scorenum
+
+            except TypeError:
+                print("Ignored")
 
             try:
                 dicdata[game]["IGN"].append(score)
