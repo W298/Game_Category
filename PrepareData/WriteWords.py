@@ -48,3 +48,6 @@ for str in worddata:
 
 with open("Data/WordData.json", 'w') as WordData_json:
     WordData_json.write(json.dumps(dicdata))
+
+with open("Data/SummaryData.json", 'w') as SummaryWordData_json:
+    SummaryWordData_json.write(json.dumps(dicdata2))
