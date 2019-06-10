@@ -49,13 +49,10 @@ for word in newwords:
     for game in WordData_data:
         if (word in WordData_data[game]["Opencritic"]):
             games.append(game)
-            break
         elif (word in WordData_data[game]["Metacritic"]):
             games.append(game)
-            break
         elif (word in WordData_data[game]["IGN"]):
             games.append(game)
-            break
 
     data.update({word : games})
 
@@ -67,14 +64,14 @@ for word in newwords:
 divtext = "<div>" + divtext + "</div>"
 
 try:
-    with open("tag_page_h.txt", 'r') as TagPage_head:
-        tagpage_h = TagPage_head.read()
-
-    with open("tag_page_f.txt", 'r') as TagPage_foot:
-        tagpage_f = TagPage_foot.read()
-
-    with open("tag_page.html", 'w', encoding="utf-8") as TagPage:
-        TagPage.write(tagpage_h + divtext + tagpage_f)
+    # with open("tag_page_h.txt", 'r') as TagPage_head:
+    #     tagpage_h = TagPage_head.read()
+    #
+    # with open("tag_page_f.txt", 'r') as TagPage_foot:
+    #     tagpage_f = TagPage_foot.read()
+    #
+    # with open("tag_page.html", 'w', encoding="utf-8") as TagPage:
+    #     TagPage.write(tagpage_h + divtext + tagpage_f)
 
     with open("Word_GameData.json", 'w', encoding="utf-8") as Word_GameData:
         Word_GameData.write(json.dumps(data))
